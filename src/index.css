@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Dancing+Script:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 30 30% 96%;
+    --foreground: 350 25% 20%;
+    --card: 30 25% 93%;
+    --card-foreground: 350 25% 20%;
+    --primary: 345 40% 42%;
+    --primary-foreground: 30 30% 96%;
+    --secondary: 30 25% 88%;
+    --secondary-foreground: 350 25% 20%;
+    --muted: 30 20% 90%;
+    --muted-foreground: 350 10% 50%;
+    --border: 30 20% 85%;
+    --rose-soft: 345 60% 75%;
+    --rose-deep: 345 50% 30%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Lora', serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: 'Playfair Display', serif;
+  }
+  .font-body {
+    font-family: 'Lora', serif;
+  }
+  .font-handwritten {
+    font-family: 'Dancing Script', cursive;
+  }
+  .text-gradient-rose {
+    background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--rose-soft)));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
