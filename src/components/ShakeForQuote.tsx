@@ -2,14 +2,7 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Heart } from "lucide-react";
 
-const LOVE_QUOTES = [
-  "You are my today and all of my tomorrows",
-  "In you, I've found the love of my life",
-  "You are my heart, my life, my one and only thought",
-  "Every love story is beautiful, but ours is my favorite",
-  "You are the source of my joy, the center of my world",
-  "I love you more than yesterday, less than tomorrow",
-];
+const LOVE_QUOTES = ["Quote placeholder"];
 
 const ShakeForQuote = () => {
   const [quote, setQuote] = useState("");

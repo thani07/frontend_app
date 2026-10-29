@@ -1,12 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const QUOTES = [
-  "Love is not about how many days, months, or years you have been together. It's all about how much you love each other every single day.",
-  "You are my sun, my moon, and all my stars.",
-  "In your smile, I see something more beautiful than the stars.",
-  "I have found the one whom my soul loves.",
-];
+const QUOTES = ["Quote placeholder"];
 
 const LoveQuotesRotation = () => {
   const [index, setIndex] = useState(0);

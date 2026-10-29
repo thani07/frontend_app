@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { MapPin, Calendar } from "lucide-react";
+import MediaPlaceholder from "@/components/MediaPlaceholder";
 import type { TimelineEvent } from "@/data/timelineData";
 
 interface TimelineCardProps {
@@ -31,12 +32,7 @@ const TimelineCard = ({ event, index }: TimelineCardProps) => {
         whileHover={{ scale: 1.02 }}
         transition={{ type: "spring", stiffness: 300 }}
       >
-        <img
-          src={event.image}
-          alt={event.title}
-          className="aspect-[3/4] w-full object-cover"
-          loading="lazy"
-        />
+        <MediaPlaceholder className="aspect-[3/4] w-full" />
         <div className="absolute inset-0 bg-gradient-to-t from-foreground/50 to-transparent" />
         <div className="absolute bottom-4 left-4 right-4">
           <h2 className="font-display text-2xl font-bold text-primary-foreground drop-shadow-lg">
@@ -58,7 +54,7 @@ const TimelineCard = ({ event, index }: TimelineCardProps) => {
           </span>
         </div>
         <p className="font-body text-base leading-relaxed text-foreground/80 italic">
-          "{event.description}"
+          {event.description}
         </p>
       </div>
     </motion.div>

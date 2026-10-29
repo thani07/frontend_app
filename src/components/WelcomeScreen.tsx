@@ -2,7 +2,6 @@ import { motion } from "framer-motion";
 import { Heart } from "lucide-react";
 import FloatingHearts from "./FloatingHearts";
 import PhotoSlideshow from "./PhotoSlideshow";
-import MusicVisualizer from "./MusicVisualizer";
 
 interface WelcomeScreenProps {
   onEnter: () => void;
@@ -17,7 +16,6 @@ const WelcomeScreen = ({ onEnter }: WelcomeScreenProps) => {
     >
       <PhotoSlideshow />
       <FloatingHearts />
-      <MusicVisualizer />
 
       <motion.div
         className="relative z-10 flex flex-col items-center gap-6 px-8 text-center"

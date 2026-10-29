@@ -2,7 +2,6 @@ import { motion } from "framer-motion";
 import { Heart, RotateCcw } from "lucide-react";
 import TimelineCard from "./TimelineCard";
 import FloatingHearts from "./FloatingHearts";
-import MusicToggle from "./MusicToggle";
 import { timelineEvents } from "@/data/timelineData";
 
 interface TimelineProps {
@@ -26,7 +25,6 @@ const Timeline = ({ onReplay }: TimelineProps) => {
             <Heart size={20} className="fill-primary text-primary" />
             <span className="font-display text-lg font-semibold text-gradient-rose">Our Story</span>
           </div>
-          <MusicToggle />
           <button
             onClick={onReplay}
             className="flex items-center gap-1.5 rounded-full bg-secondary px-3 py-1.5 text-sm font-medium text-secondary-foreground transition-colors hover:bg-secondary/80"

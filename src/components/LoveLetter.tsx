@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Heart, Volume2, VolumeX, ArrowLeft } from "lucide-react";
+import { Heart, ArrowLeft } from "lucide-react";
 
 const LETTER_TEXT = `My Dearest Ishaa,
 
@@ -16,11 +16,9 @@ Forever Yours ♥`;
 
 interface LoveLetterProps {
   onBack: () => void;
-  onToggleMute: () => boolean;
-  isMuted: boolean;
 }
 
-const LoveLetter = ({ onBack, onToggleMute, isMuted }: LoveLetterProps) => {
+const LoveLetter = ({ onBack }: LoveLetterProps) => {
   const [displayedText, setDisplayedText] = useState("");
   const [isComplete, setIsComplete] = useState(false);
 
@@ -71,13 +69,6 @@ const LoveLetter = ({ onBack, onToggleMute, isMuted }: LoveLetterProps) => {
             <Heart size={20} className="fill-primary text-primary" />
             <span className="font-display text-lg font-semibold text-gradient-rose">My Letter</span>
           </div>
-          <button
-            onClick={() => onToggleMute()}
-            className="flex items-center gap-1.5 rounded-full bg-secondary px-3 py-1.5 text-sm font-medium text-secondary-foreground transition-colors hover:bg-secondary/80"
-          >
-            {isMuted ? <VolumeX size={14} /> : <Volume2 size={14} />}
-            {isMuted ? "Unmute" : "Mute"}
-          </button>
         </div>
       </motion.header>
 

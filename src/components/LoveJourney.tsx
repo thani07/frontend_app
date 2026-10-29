@@ -1,46 +1,16 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Play, X, Heart, Volume2, VolumeX, ChevronDown, Music, ArrowLeft } from "lucide-react";
+import MediaPlaceholder from "@/components/MediaPlaceholder";
+import { Play, X, Heart, ChevronDown, ArrowLeft } from "lucide-react";
 
-import timeline1 from "@/assets/timeline-1.jpg";
-import timeline2 from "@/assets/timeline-2.jpg";
-import timeline3 from "@/assets/timeline-3.jpg";
-import timeline4 from "@/assets/timeline-4.jpg";
-import timeline5 from "@/assets/timeline-5.jpg";
-import timeline6 from "@/assets/timeline-6.jpg";
-
-const memories = [
-  { image: timeline1, caption: "The day our story began" },
-  { image: timeline2, caption: "Our first date together" },
-  { image: timeline3, caption: "our first traditional wear" },
-  { image: timeline4, caption: "a day of matching matching" },
-  { image: timeline5, caption: "The moment I knew forever you are my wife" },
-  { image: timeline6, caption: "Our most clarity selfie" },
-];
+const memories = Array.from({ length: 6 }, () => ({ caption: "Caption placeholder" }));
 
 interface LoveJourneyProps {
   onNext: () => void;
   onBack: () => void;
-  onToggleMute: () => boolean;
-  isMuted: boolean;
-  onPauseMusic: () => void;
-  onResumeMusic: () => void;
-  musicPausedForVideo: boolean;
-  preventAutoResume: boolean;
-  onToggleAutoResume: () => void;
 }
 
-const LoveJourney = ({ 
-  onNext,
-  onBack, 
-  onToggleMute, 
-  isMuted, 
-  onPauseMusic, 
-  onResumeMusic,
-  musicPausedForVideo,
-  preventAutoResume,
-  onToggleAutoResume
-}: LoveJourneyProps) => {
+const LoveJourney = ({ onNext, onBack }: LoveJourneyProps) => {
   const [videoOpen, setVideoOpen] = useState(false);
   const [hoveredImageIndex, setHoveredImageIndex] = useState<number | null>(null);
   const [galleryOpen, setGalleryOpen] = useState(false);
@@ -49,7 +19,6 @@ const LoveJourney = ({
     Array(6).fill({ x: 0, y: 0 })
   );
   const [hearts, setHearts] = useState<{ id: number; x: number; y: number }[]>([]);
-  const videoRef = useRef<HTMLVideoElement>(null);
   const lastTapRef = useRef<number>(0);
 
   const handleDoubleTap = (e: React.TouchEvent | React.MouseEvent, index: number) => {
@@ -92,42 +61,6 @@ const LoveJourney = ({
     setGalleryOpen(true);
   };
 
-  // Handle video play/pause to control background music
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video || !videoOpen) return;
-
-    const handlePlay = () => {
-      onPauseMusic();
-    };
-
-    const handleEnded = () => {
-      onResumeMusic();
-    };
-
-    // Pause music immediately when video opens and autoplays
-    if (videoOpen) {
-      onPauseMusic();
-    }
-
-    video.addEventListener("play", handlePlay);
-    video.addEventListener("ended", handleEnded);
-
-    return () => {
-      video.removeEventListener("play", handlePlay);
-      video.removeEventListener("ended", handleEnded);
-    };
-  }, [onPauseMusic, onResumeMusic, videoOpen]);
-
-  // Resume music when video modal closes
-  const handleCloseVideo = () => {
-    if (videoRef.current) {
-      videoRef.current.pause();
-    }
-    onResumeMusic();
-    setVideoOpen(false);
-  };
-
   return (
     <motion.div
       className="min-h-screen bg-background relative"
@@ -154,27 +87,6 @@ const LoveJourney = ({
             </button>
             <Heart size={20} className="fill-primary text-primary" />
             <span className="font-display text-lg font-semibold text-gradient-rose">Our Memories</span>
-          </div>
-          <div className="flex items-center gap-2">
-            {/* Visual Indicator - Music Status */}
-            {musicPausedForVideo && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.8 }}
-                className="flex items-center gap-1.5 rounded-full bg-amber-100 dark:bg-amber-900/30 px-3 py-1.5 text-xs font-medium text-amber-800 dark:text-amber-200"
-              >
-                <VolumeX size={12} />
-                <span>Music paused</span>
-              </motion.div>
-            )}
-            <button
-              onClick={() => onToggleMute()}
-              className="flex items-center gap-1.5 rounded-full bg-secondary px-3 py-1.5 text-sm font-medium text-secondary-foreground transition-colors hover:bg-secondary/80"
-            >
-              {isMuted ? <VolumeX size={14} /> : <Volume2 size={14} />}
-              {isMuted ? "Unmute" : "Mute"}
-            </button>
           </div>
         </div>
       </motion.header>
@@ -225,16 +137,14 @@ const LoveJourney = ({
                 transformStyle: "preserve-3d",
               }}
             >
-              <motion.img
-                src={mem.image}
-                alt={mem.caption}
-                className="aspect-[3/4] w-full object-cover"
-                loading="lazy"
+              <motion.div
                 animate={{
                   scale: hoveredImageIndex === i ? 1.1 : 1,
                 }}
                 transition={{ duration: 0.3 }}
-              />
+              >
+                <MediaPlaceholder className="aspect-[3/4] w-full" />
+              </motion.div>
               <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 via-transparent to-transparent" />
               <motion.p 
                 className="absolute bottom-3 left-3 right-3 font-body text-sm text-primary-foreground drop-shadow-md italic"
@@ -343,15 +253,14 @@ const LoveJourney = ({
             </button>
             
             <div className="relative w-full max-w-4xl" onClick={(e) => e.stopPropagation()}>
-              <motion.img
+              <motion.div
                 key={currentImageIndex}
-                src={memories[currentImageIndex].image}
-                alt={memories[currentImageIndex].caption}
-                className="w-full h-auto max-h-[80vh] object-contain rounded-lg"
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.8 }}
-              />
+              >
+                <MediaPlaceholder className="w-full aspect-[3/4] max-h-[80vh] rounded-lg" />
+              </motion.div>
               
               <p className="text-white text-center mt-4 text-lg font-body italic">
                 {memories[currentImageIndex].caption}
@@ -397,49 +306,17 @@ const LoveJourney = ({
               transition={{ type: "spring", stiffness: 300, damping: 25 }}
             >
               <button
-                onClick={handleCloseVideo}
+                onClick={() => setVideoOpen(false)}
                 className="absolute top-3 right-3 z-10 rounded-full bg-secondary/80 p-2 hover:bg-secondary transition-colors"
               >
                 <X size={18} className="text-secondary-foreground" />
               </button>
               
-              {/* Prevent Auto-Resume Toggle */}
-              <div className="absolute top-3 left-3 z-10 flex items-center gap-2">
-                <button
-                  onClick={onToggleAutoResume}
-                  className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
-                    preventAutoResume
-                      ? 'bg-primary text-primary-foreground'
-                      : 'bg-secondary/80 text-secondary-foreground hover:bg-secondary'
-                  }`}
-                >
-                  {preventAutoResume ? <VolumeX size={12} /> : <Music size={12} />}
-                  <span>{preventAutoResume ? 'Keep paused' : 'Auto-resume'}</span>
-                </button>
-              </div>
-
               <div className="aspect-video bg-muted flex items-center justify-center">
-                <video
-                  ref={videoRef}
-                  className="w-full h-full object-cover"
-                  controls
-                  autoPlay
-                  src="/Video/journey.mp4"
-                  poster={timeline1}
-                >
-                  <p className="font-body text-muted-foreground text-center p-8">
-                    Replace this with your memory video
-                  </p>
-                </video>
+                <MediaPlaceholder type="video" label="video placeholder" className="w-full h-full" />
               </div>
               <div className="p-4 text-center">
                 <p className="font-display text-lg text-gradient-rose font-semibold">Our Memories Together</p>
-                <p className="font-body text-sm text-muted-foreground italic mt-1">
-                  {preventAutoResume 
-                    ? "Music will stay paused after video" 
-                    : "Music will resume automatically ♥"
-                  }
-                </p>
               </div>
             </motion.div>
           </motion.div>
